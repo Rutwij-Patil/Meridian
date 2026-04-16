@@ -6,6 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		46A5FA8E2F911E3D0075E348 /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FA8D2F911E3D0075E348 /* MLX */; };
+		46A5FA902F911E3D0075E348 /* MLXNN in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FA8F2F911E3D0075E348 /* MLXNN */; };
+		46A5FA932F9120290075E348 /* MLXEmbedders in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FA922F9120290075E348 /* MLXEmbedders */; };
+		46A5FA962F9120790075E348 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FA952F9120790075E348 /* SQLite */; };
+		46A5FA9B2F9120BD0075E348 /* Hub in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FA9A2F9120BD0075E348 /* Hub */; };
+		46A5FA9D2F9120BD0075E348 /* Tokenizers in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FA9C2F9120BD0075E348 /* Tokenizers */; };
+		46A5FA9F2F9120BD0075E348 /* Transformers in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FA9E2F9120BD0075E348 /* Transformers */; };
+		46A5FAA22F91215C0075E348 /* MLXLLM in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FAA12F91215C0075E348 /* MLXLLM */; };
+		46A5FAA42F9121650075E348 /* MLXLMCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FAA32F9121650075E348 /* MLXLMCommon */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		46A5FA752F8DB42C0075E348 /* Meridian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meridian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +35,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46A5FAA42F9121650075E348 /* MLXLMCommon in Frameworks */,
+				46A5FAA22F91215C0075E348 /* MLXLLM in Frameworks */,
+				46A5FA9B2F9120BD0075E348 /* Hub in Frameworks */,
+				46A5FA9D2F9120BD0075E348 /* Tokenizers in Frameworks */,
+				46A5FA9F2F9120BD0075E348 /* Transformers in Frameworks */,
+				46A5FA962F9120790075E348 /* SQLite in Frameworks */,
+				46A5FA902F911E3D0075E348 /* MLXNN in Frameworks */,
+				46A5FA8E2F911E3D0075E348 /* MLX in Frameworks */,
+				46A5FA932F9120290075E348 /* MLXEmbedders in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				46A5FA772F8DB42C0075E348 /* Meridian */,
+				46A5FAA02F91215C0075E348 /* Frameworks */,
 				46A5FA762F8DB42C0075E348 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +65,13 @@
 				46A5FA752F8DB42C0075E348 /* Meridian.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		46A5FAA02F91215C0075E348 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +94,15 @@
 			);
 			name = Meridian;
 			packageProductDependencies = (
+				46A5FA8D2F911E3D0075E348 /* MLX */,
+				46A5FA8F2F911E3D0075E348 /* MLXNN */,
+				46A5FA922F9120290075E348 /* MLXEmbedders */,
+				46A5FA952F9120790075E348 /* SQLite */,
+				46A5FA9A2F9120BD0075E348 /* Hub */,
+				46A5FA9C2F9120BD0075E348 /* Tokenizers */,
+				46A5FA9E2F9120BD0075E348 /* Transformers */,
+				46A5FAA12F91215C0075E348 /* MLXLLM */,
+				46A5FAA32F9121650075E348 /* MLXLMCommon */,
 			);
 			productName = Meridian;
 			productReference = 46A5FA752F8DB42C0075E348 /* Meridian.app */;
@@ -94,6 +132,12 @@
 			);
 			mainGroup = 46A5FA6C2F8DB42C0075E348;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				46A5FA8C2F911E3D0075E348 /* XCRemoteSwiftPackageReference "mlx-swift" */,
+				46A5FA912F9120290075E348 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */,
+				46A5FA942F9120790075E348 /* XCRemoteSwiftPackageReference "SQLite" */,
+				46A5FA992F9120BD0075E348 /* XCRemoteSwiftPackageReference "swift-transformers" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 46A5FA762F8DB42C0075E348 /* Products */;
 			projectDirPath = "";
@@ -332,6 +376,89 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		46A5FA8C2F911E3D0075E348 /* XCRemoteSwiftPackageReference "mlx-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ml-explore/mlx-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.31.3;
+			};
+		};
+		46A5FA912F9120290075E348 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ml-explore/mlx-swift-lm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.29.1;
+			};
+		};
+		46A5FA942F9120790075E348 /* XCRemoteSwiftPackageReference "SQLite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.15.3;
+			};
+		};
+		46A5FA992F9120BD0075E348 /* XCRemoteSwiftPackageReference "swift-transformers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/huggingface/swift-transformers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		46A5FA8D2F911E3D0075E348 /* MLX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FA8C2F911E3D0075E348 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLX;
+		};
+		46A5FA8F2F911E3D0075E348 /* MLXNN */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FA8C2F911E3D0075E348 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXNN;
+		};
+		46A5FA922F9120290075E348 /* MLXEmbedders */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FA912F9120290075E348 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */;
+			productName = MLXEmbedders;
+		};
+		46A5FA952F9120790075E348 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FA942F9120790075E348 /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
+		};
+		46A5FA9A2F9120BD0075E348 /* Hub */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FA992F9120BD0075E348 /* XCRemoteSwiftPackageReference "swift-transformers" */;
+			productName = Hub;
+		};
+		46A5FA9C2F9120BD0075E348 /* Tokenizers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FA992F9120BD0075E348 /* XCRemoteSwiftPackageReference "swift-transformers" */;
+			productName = Tokenizers;
+		};
+		46A5FA9E2F9120BD0075E348 /* Transformers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FA992F9120BD0075E348 /* XCRemoteSwiftPackageReference "swift-transformers" */;
+			productName = Transformers;
+		};
+		46A5FAA12F91215C0075E348 /* MLXLLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FA912F9120290075E348 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */;
+			productName = MLXLLM;
+		};
+		46A5FAA32F9121650075E348 /* MLXLMCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FA912F9120290075E348 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */;
+			productName = MLXLMCommon;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 46A5FA6D2F8DB42C0075E348 /* Project object */;
 }
