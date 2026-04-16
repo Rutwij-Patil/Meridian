@@ -1,0 +1,96 @@
+# ============================================================
+# Meridian — .gitignore
+# Xcode / Swift / iOS / macOS
+# ============================================================
+
+# ----- Xcode -----
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+xcuserdata/
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# ----- Swift Package Manager -----
+.build/
+.swiftpm/
+Packages/
+*.resolved          # commit this if you want reproducible deps, delete line if so
+
+# ----- SPM checkouts (Xcode manages these) -----
+# If using Xcode's built-in SPM integration, these live inside
+# the .xcodeproj and are not checked in.
+SourcePackages/
+
+# ----- OS / editor noise -----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V8
+.Trashes
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# ----- Build artefacts -----
+build/
+archive/
+*.o
+*.a
+*.dylib
+*.app
+*.xcarchive
+
+# ----- Instruments / profiling -----
+*.trace
+
+# ----- Simulator and device logs -----
+*.crash
+
+# ----- MLX / HuggingFace model cache -----
+# Never commit downloaded model weights
+**/models/mlx-community/
+**/huggingface/
+*.safetensors
+*.gguf
+*.bin
+*.pt
+*.pth
+
+# ----- Pack storage -----
+# Downloaded + unpacked knowledge packs belong in Documents/, not the repo
+**/packs/
+*.zip
+
+# ----- Secrets -----
+*.env
+*.env.*
+Secrets.swift
+APIKeys.swift
+secrets.xcconfig
+private.xcconfig
+
+# ----- Test output -----
+TestResults/
+*.xcresult
+
+# ----- Fastlane (if added later) -----
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
