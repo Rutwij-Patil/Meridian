@@ -6,7 +6,7 @@
 //
 
 import SQLiteVec
-import Foundation
+internal import Foundation
 
 final class VectorStore {
 

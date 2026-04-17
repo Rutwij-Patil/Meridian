@@ -13,16 +13,12 @@ import SwiftUI
 internal import Combine
 internal import Tokenizers
 
-@MainActor
-final class LLMEngine: ObservableObject {
-    @Published var state: String = "Not loaded"
-    @Published var output: String = ""
-    @Published var isRunning: Bool = false
+final class LLMEngine {
 
-    var isLoaded: Bool { container != nil }
     private var container: ModelContainer?
+    var isLoaded: Bool { container != nil }
 
-    func load() async {
+    func load(onProgress: @escaping (String) -> Void) async throws {
         guard container == nil else { return }
         Memory.cacheLimit = 20 * 1024 * 1024
 
@@ -34,57 +30,54 @@ final class LLMEngine: ObservableObject {
         let alreadyDownloaded = FileManager.default
             .fileExists(atPath: modelCacheURL.appendingPathComponent("config.json").path)
 
-        state = alreadyDownloaded ? "Loading..." : "Downloading..."
+        onProgress(alreadyDownloaded ? "Loading..." : "Downloading...")
 
-        do {
-            let hub = HubApi(downloadBase: documentsURL)
-            container = try await LLMModelFactory.shared.loadContainer(
-                hub: hub,
-                configuration: LLMRegistry.gemma_2_9b_it_4bit
-            ) { [weak self] progress in
-                guard let self, !alreadyDownloaded else { return }
-                Task { @MainActor in
-                    self.state = "Downloading: \(Int(progress.fractionCompleted * 100))%"
-                }
-            }
-            state = "Ready"
-        } catch {
-            state = "Error: \(error.localizedDescription)"
+        let hub = HubApi(downloadBase: documentsURL)
+        container = try await LLMModelFactory.shared.loadContainer(
+            hub: hub,
+            configuration: LLMRegistry.gemma_2_9b_it_4bit
+        ) { progress in
+            guard !alreadyDownloaded else { return }
+            onProgress("Downloading: \(Int(progress.fractionCompleted * 100))%")
         }
     }
 
-    func generate(prompt: String) async {
-        guard let container else { return }
-        isRunning = true
-        output = ""
-        state = "Generating..."
+    func generate(prompt: String, onToken: @escaping (String) -> Void) async throws -> String {
+        guard let container else { throw LLMError.notLoaded }
 
-        do {
-            let formatted = "<start_of_turn>user\n\(prompt)<end_of_turn>\n<start_of_turn>model\n"
+        let formatted = "<start_of_turn>user\n\(prompt)<end_of_turn>\n<start_of_turn>model\n"
 
-            try await container.perform { context in
-                let tokens = context.tokenizer.encode(text: formatted)
-                let input = LMInput(tokens: MLXArray(tokens))
+        return try await container.perform { context in
+            let tokens = context.tokenizer.encode(text: formatted)
+            let input = LMInput(tokens: MLXArray(tokens))
 
-                let stream = try MLXLMCommon.generate(
-                    input: input,
-                    cache: nil,
-                    parameters: GenerateParameters(temperature: 0.7),
-                    context: context
-                )
+            let stream = try MLXLMCommon.generate(
+                input: input,
+                cache: nil,
+                parameters: GenerateParameters(temperature: 0.7),
+                context: context
+            )
 
-                for try await generation in stream {
-                    if let chunk = generation.chunk {
-                        await MainActor.run { self.output += chunk }
-                    } else if let info = generation.info {
-                        await MainActor.run { self.state = "Done (\(info.generationTokenCount) tokens)" }
-                    }
+            var fullOutput = ""
+            for try await generation in stream {
+                if let chunk = generation.chunk {
+                    fullOutput += chunk
+                    onToken(chunk)
                 }
             }
-        } catch {
-            state = "Error: \(error.localizedDescription)"
+            return fullOutput
         }
+    }
+}
 
-        isRunning = false
+extension LLMEngine {
+    enum LLMError: LocalizedError {
+        case notLoaded
+
+        var errorDescription: String? {
+            switch self {
+            case .notLoaded: return "LLM model is not loaded"
+            }
+        }
     }
 }

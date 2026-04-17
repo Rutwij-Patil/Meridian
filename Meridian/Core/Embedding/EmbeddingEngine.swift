@@ -9,38 +9,28 @@ import MLX
 import MLXEmbedders
 import MLXLMCommon
 internal import Tokenizers
-import Foundation
-internal import Combine
+internal import Foundation
 
-class EmbeddingEngine: ObservableObject {
-    @Published var state: String = "Not loaded"
+final class EmbeddingEngine {
 
     private var model: (any MLXEmbedders.EmbeddingModel)?
     private var tokenizer: (any Tokenizers.Tokenizer)?
 
-    @MainActor
-    func load() async {
-        state = "Loading embedder..."
-        do {
-            let (m, t) = try await MLXEmbedders.load(
-                configuration: .minilm_l6
-            ) { [weak self] progress in
-                Task { @MainActor in
-                    self?.state = "Downloading: \(Int(progress.fractionCompleted * 100))%"
-                }
-            }
-            self.model = m
-            self.tokenizer = t
-            await MainActor.run { state = "Embedder ready" }
-        } catch {
-            await MainActor.run { state = "Error: \(error.localizedDescription)" }
+    var isLoaded: Bool { model != nil }
+
+    func load(onProgress: @escaping (String) -> Void) async throws {
+        onProgress("Loading embedder...")
+        let (m, t) = try await MLXEmbedders.load(
+            configuration: .minilm_l6
+        ) { progress in
+            onProgress("Downloading embedder: \(Int(progress.fractionCompleted * 100))%")
         }
+        self.model = m
+        self.tokenizer = t
     }
 
     func embed(_ text: String) throws -> [Float] {
-        guard let model, let tokenizer else {
-            throw EmbedError.notLoaded
-        }
+        guard let model, let tokenizer else { throw EmbedError.notLoaded }
 
         let tokens = tokenizer.encode(text: text)
         let seqLen = tokens.count
@@ -76,8 +66,15 @@ class EmbeddingEngine: ObservableObject {
 }
 
 extension EmbeddingEngine {
-    enum EmbedError: Error {
+    enum EmbedError: LocalizedError {
         case notLoaded
         case noOutput
+
+        var errorDescription: String? {
+            switch self {
+            case .notLoaded: return "Embedding model is not loaded"
+            case .noOutput:  return "Embedding model produced no output"
+            }
+        }
     }
 }
