@@ -16,6 +16,8 @@
 		46A5FA9F2F9120BD0075E348 /* Transformers in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FA9E2F9120BD0075E348 /* Transformers */; };
 		46A5FAA22F91215C0075E348 /* MLXLLM in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FAA12F91215C0075E348 /* MLXLLM */; };
 		46A5FAA42F9121650075E348 /* MLXLMCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FAA32F9121650075E348 /* MLXLMCommon */; };
+		46A5FAAE2F91C99E0075E348 /* CSQLiteVec in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FAAD2F91C99E0075E348 /* CSQLiteVec */; };
+		46A5FAB02F91C99E0075E348 /* SQLiteVec in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FAAF2F91C99E0075E348 /* SQLiteVec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,12 +40,14 @@
 				46A5FAA42F9121650075E348 /* MLXLMCommon in Frameworks */,
 				46A5FAA22F91215C0075E348 /* MLXLLM in Frameworks */,
 				46A5FA9B2F9120BD0075E348 /* Hub in Frameworks */,
+				46A5FAAE2F91C99E0075E348 /* CSQLiteVec in Frameworks */,
 				46A5FA9D2F9120BD0075E348 /* Tokenizers in Frameworks */,
 				46A5FA9F2F9120BD0075E348 /* Transformers in Frameworks */,
 				46A5FA962F9120790075E348 /* SQLite in Frameworks */,
 				46A5FA902F911E3D0075E348 /* MLXNN in Frameworks */,
 				46A5FA8E2F911E3D0075E348 /* MLX in Frameworks */,
 				46A5FA932F9120290075E348 /* MLXEmbedders in Frameworks */,
+				46A5FAB02F91C99E0075E348 /* SQLiteVec in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +107,8 @@
 				46A5FA9E2F9120BD0075E348 /* Transformers */,
 				46A5FAA12F91215C0075E348 /* MLXLLM */,
 				46A5FAA32F9121650075E348 /* MLXLMCommon */,
+				46A5FAAD2F91C99E0075E348 /* CSQLiteVec */,
+				46A5FAAF2F91C99E0075E348 /* SQLiteVec */,
 			);
 			productName = Meridian;
 			productReference = 46A5FA752F8DB42C0075E348 /* Meridian.app */;
@@ -137,6 +143,7 @@
 				46A5FA912F9120290075E348 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */,
 				46A5FA942F9120790075E348 /* XCRemoteSwiftPackageReference "SQLite" */,
 				46A5FA992F9120BD0075E348 /* XCRemoteSwiftPackageReference "swift-transformers" */,
+				46A5FAAC2F91C99E0075E348 /* XCRemoteSwiftPackageReference "SQLiteVec" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 46A5FA762F8DB42C0075E348 /* Products */;
@@ -410,6 +417,14 @@
 				minimumVersion = 1.2.0;
 			};
 		};
+		46A5FAAC2F91C99E0075E348 /* XCRemoteSwiftPackageReference "SQLiteVec" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jkrukowski/SQLiteVec.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.14;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -457,6 +472,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 46A5FA912F9120290075E348 /* XCRemoteSwiftPackageReference "mlx-swift-lm" */;
 			productName = MLXLMCommon;
+		};
+		46A5FAAD2F91C99E0075E348 /* CSQLiteVec */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FAAC2F91C99E0075E348 /* XCRemoteSwiftPackageReference "SQLiteVec" */;
+			productName = CSQLiteVec;
+		};
+		46A5FAAF2F91C99E0075E348 /* SQLiteVec */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FAAC2F91C99E0075E348 /* XCRemoteSwiftPackageReference "SQLiteVec" */;
+			productName = SQLiteVec;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
