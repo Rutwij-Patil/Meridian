@@ -18,6 +18,7 @@
 		46A5FAA42F9121650075E348 /* MLXLMCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FAA32F9121650075E348 /* MLXLMCommon */; };
 		46A5FAAE2F91C99E0075E348 /* CSQLiteVec in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FAAD2F91C99E0075E348 /* CSQLiteVec */; };
 		46A5FAB02F91C99E0075E348 /* SQLiteVec in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FAAF2F91C99E0075E348 /* SQLiteVec */; };
+		46A5FAC82FAA01D60075E348 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 46A5FAC72FAA01D60075E348 /* ZIPFoundation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 				46A5FA8E2F911E3D0075E348 /* MLX in Frameworks */,
 				46A5FA932F9120290075E348 /* MLXEmbedders in Frameworks */,
 				46A5FAB02F91C99E0075E348 /* SQLiteVec in Frameworks */,
+				46A5FAC82FAA01D60075E348 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +111,7 @@
 				46A5FAA32F9121650075E348 /* MLXLMCommon */,
 				46A5FAAD2F91C99E0075E348 /* CSQLiteVec */,
 				46A5FAAF2F91C99E0075E348 /* SQLiteVec */,
+				46A5FAC72FAA01D60075E348 /* ZIPFoundation */,
 			);
 			productName = Meridian;
 			productReference = 46A5FA752F8DB42C0075E348 /* Meridian.app */;
@@ -144,6 +147,7 @@
 				46A5FA942F9120790075E348 /* XCRemoteSwiftPackageReference "SQLite" */,
 				46A5FA992F9120BD0075E348 /* XCRemoteSwiftPackageReference "swift-transformers" */,
 				46A5FAAC2F91C99E0075E348 /* XCRemoteSwiftPackageReference "SQLiteVec" */,
+				46A5FAC62FAA01D60075E348 /* XCRemoteSwiftPackageReference "ZipFoundation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 46A5FA762F8DB42C0075E348 /* Products */;
@@ -425,6 +429,14 @@
 				minimumVersion = 0.0.14;
 			};
 		};
+		46A5FAC62FAA01D60075E348 /* XCRemoteSwiftPackageReference "ZipFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZipFoundation";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -482,6 +494,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 46A5FAAC2F91C99E0075E348 /* XCRemoteSwiftPackageReference "SQLiteVec" */;
 			productName = SQLiteVec;
+		};
+		46A5FAC72FAA01D60075E348 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46A5FAC62FAA01D60075E348 /* XCRemoteSwiftPackageReference "ZipFoundation" */;
+			productName = ZIPFoundation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

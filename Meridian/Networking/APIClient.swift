@@ -1,8 +1,7 @@
 //
-//  APIClient.swift
-//  GemmaSpike
 //
-//  Created by Rutwij on 17/04/26.
+//  APIClient.swift
+//  Meridian
 //
 
 internal import Foundation
@@ -10,29 +9,26 @@ internal import Foundation
 // MARK: - Environment
 
 enum APIEnvironment {
-    case local(baseURL: String)
-    case staging(baseURL: String)
-    case production(baseURL: String)
+    case local
+    case production
 
     var baseURL: String {
         switch self {
-        case .local(let url), .staging(let url), .production(let url):
-            return url
+        case .local:      return "https://unexclusively-stripier-carlotta.ngrok-free.dev"
+        case .production: return "https://api.meridian.app"
         }
+    }
+
+    static var current: APIEnvironment {
+        #if DEBUG
+        return .local
+        #else
+        return .production
+        #endif
     }
 }
 
-// MARK: - HTTP Method
-
-enum HTTPMethod: String {
-    case get = "GET"
-    case post = "POST"
-    case put = "PUT"
-    case delete = "DELETE"
-    case patch = "PATCH"
-}
-
-// MARK: - API Error
+// MARK: - Errors
 
 enum APIError: LocalizedError {
     case invalidURL(String)
@@ -43,11 +39,11 @@ enum APIError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .invalidURL(let url):       return "Invalid URL: \(url)"
-        case .httpError(let code, _):    return "HTTP \(code)"
-        case .decodingError(let e):      return "Decode failed: \(e.localizedDescription)"
-        case .noData:                    return "Empty response"
-        case .unknown(let e):            return e.localizedDescription
+        case .invalidURL(let url):    return "Invalid URL: \(url)"
+        case .httpError(let code, _): return "HTTP \(code)"
+        case .decodingError(let e):   return "Decode failed: \(e.localizedDescription)"
+        case .noData:                 return "Empty response"
+        case .unknown(let e):         return e.localizedDescription
         }
     }
 }
@@ -58,14 +54,14 @@ struct APIRequest<Response: Decodable> {
     let path: String
     let method: HTTPMethod
     let headers: [String: String]
-    let body: Encodable?
+    let body: (any Encodable)?
     let decoder: JSONDecoder
 
     init(
         path: String,
         method: HTTPMethod = .get,
         headers: [String: String] = [:],
-        body: Encodable? = nil,
+        body: (any Encodable)? = nil,
         decoder: JSONDecoder = APIClient.defaultDecoder
     ) {
         self.path = path
@@ -76,14 +72,21 @@ struct APIRequest<Response: Decodable> {
     }
 }
 
-// MARK: - APIClient
+// MARK: - HTTP Method
+
+enum HTTPMethod: String {
+    case get    = "GET"
+    case post   = "POST"
+    case put    = "PUT"
+    case delete = "DELETE"
+    case patch  = "PATCH"
+}
+
+// MARK: - Client
 
 final class APIClient {
 
-    // MARK: Shared instance — swap environment here
-    static let shared = APIClient(
-        environment: .local(baseURL: "https://unexclusively-stripier-carlotta.ngrok-free.dev")
-    )
+    static let shared = APIClient(environment: .current)
 
     static let defaultDecoder: JSONDecoder = {
         let d = JSONDecoder()
@@ -98,8 +101,6 @@ final class APIClient {
         self.environment = environment
         self.session = session
     }
-
-    // MARK: - Core send
 
     func send<R: Decodable>(_ request: APIRequest<R>) async throws -> R {
         let urlRequest = try buildURLRequest(from: request)
@@ -117,8 +118,6 @@ final class APIClient {
         }
     }
 
-    // MARK: - Raw download (for S3 zip)
-
     func download(from urlString: String) async throws -> URL {
         guard let url = URL(string: urlString) else {
             throw APIError.invalidURL(urlString)
@@ -126,12 +125,13 @@ final class APIClient {
         let (tempURL, response) = try await session.download(from: url)
         guard let http = response as? HTTPURLResponse,
               (200..<300).contains(http.statusCode) else {
-            throw APIError.httpError(statusCode: (response as? HTTPURLResponse)?.statusCode ?? -1, data: nil)
+            throw APIError.httpError(
+                statusCode: (response as? HTTPURLResponse)?.statusCode ?? -1,
+                data: nil
+            )
         }
         return tempURL
     }
-
-    // MARK: - Private
 
     private func buildURLRequest<R>(from request: APIRequest<R>) throws -> URLRequest {
         let rawURL = environment.baseURL + request.path
@@ -144,7 +144,6 @@ final class APIClient {
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
 
-        // Merge any per-request headers (override defaults if needed)
         for (key, value) in request.headers {
             urlRequest.setValue(value, forHTTPHeaderField: key)
         }
