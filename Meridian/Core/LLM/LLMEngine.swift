@@ -35,7 +35,7 @@ final class LLMEngine {
         let hub = HubApi(downloadBase: documentsURL)
         container = try await LLMModelFactory.shared.loadContainer(
             hub: hub,
-            configuration: LLMRegistry.gemma_2_9b_it_4bit
+            configuration: LLMRegistry.gemma3_1B_qat_4bit
         ) { progress in
             guard !alreadyDownloaded else { return }
             onProgress("Downloading: \(Int(progress.fractionCompleted * 100))%")
