@@ -23,6 +23,7 @@ final class AppModel {
     private(set) var llmProgress: String = ""
     private(set) var embedderProgress: String = ""
     private(set) var newSessionProgress: String = ""
+    private(set) var newSessionError: String?
 
     let llm = LLMEngine()
     let embedder = EmbeddingEngine()
@@ -83,6 +84,7 @@ final class AppModel {
     }
 
     private func performNewSession(query: String) async {
+        newSessionError = nil
         newSessionProgress = "Querying..."
         do {
             let url = try await packs.fetchPack(query: query) { [weak self] msg in
@@ -106,8 +108,12 @@ final class AppModel {
             return
         } catch {
             newSessionProgress = ""
-            phase = .error(error.localizedDescription)
+            newSessionError = error.localizedDescription
         }
+    }
+
+    func clearNewSessionError() {
+        newSessionError = nil
     }
 
     func selectSession(_ id: Session.ID) {

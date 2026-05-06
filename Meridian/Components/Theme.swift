@@ -24,4 +24,5 @@ enum Theme {
     static let accentBorder = Color(red: 0.369, green: 0.761, blue: 0.761).opacity(0.35)
 
     static let statusOK     = Color(red: 0.290, green: 0.871, blue: 0.502)
+    static let textDanger   = Color(red: 0.929, green: 0.482, blue: 0.482)
 }

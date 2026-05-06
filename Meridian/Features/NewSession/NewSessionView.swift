@@ -26,6 +26,9 @@ struct NewSessionView: View {
                     .foregroundStyle(Theme.textPrimary)
                     .focused($isFocused)
                     .onSubmit { submit() }
+                    .onChange(of: query) { _, _ in
+                        if app.newSessionError != nil { app.clearNewSessionError() }
+                    }
 
                 Button(action: submit) {
                     RoundedRectangle(cornerRadius: 6)
@@ -52,7 +55,22 @@ struct NewSessionView: View {
             )
             .frame(maxWidth: 420)
 
-            if !app.newSessionProgress.isEmpty {
+            if let error = app.newSessionError {
+                HStack(spacing: 12) {
+                    Text(error)
+                        .font(.system(size: 11))
+                        .foregroundStyle(Theme.textDanger)
+                        .lineLimit(2)
+                    Spacer()
+                    Button("Try again") { submit() }
+                        .buttonStyle(.plain)
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(Theme.accent)
+                        .disabled(query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+                .frame(maxWidth: 420)
+                .padding(.top, 16)
+            } else if !app.newSessionProgress.isEmpty {
                 Text(app.newSessionProgress)
                     .font(.system(size: 11))
                     .foregroundStyle(Theme.textTertiary)
@@ -76,6 +94,5 @@ struct NewSessionView: View {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
         app.newSession(query: trimmed)
-        query = ""
     }
 }
