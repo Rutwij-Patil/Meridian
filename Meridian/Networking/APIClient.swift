@@ -97,9 +97,16 @@ final class APIClient {
     private let environment: APIEnvironment
     private let session: URLSession
 
-    init(environment: APIEnvironment, session: URLSession = .shared) {
+    init(environment: APIEnvironment, session: URLSession = APIClient.defaultSession()) {
         self.environment = environment
         self.session = session
+    }
+
+    private static func defaultSession() -> URLSession {
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 300   // 5 minutes — backend scrapes the web
+        config.timeoutIntervalForResource = 600  // 10 minutes — overall ceiling
+        return URLSession(configuration: config)
     }
 
     func send<R: Decodable>(_ request: APIRequest<R>) async throws -> R {
