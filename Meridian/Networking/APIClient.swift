@@ -39,11 +39,22 @@ enum APIError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .invalidURL(let url):    return "Invalid URL: \(url)"
-        case .httpError(let code, _): return "HTTP \(code)"
-        case .decodingError(let e):   return "Decode failed: \(e.localizedDescription)"
-        case .noData:                 return "Empty response"
-        case .unknown(let e):         return e.localizedDescription
+        case .invalidURL:
+            return "Invalid request URL."
+        case .httpError(let code, _):
+            switch code {
+            case 404:        return "Couldn't reach the knowledge service."
+            case 408, 504:   return "The service took too long to respond."
+            case 429:        return "Too many requests — try again in a moment."
+            case 500..<600:  return "The knowledge service is having trouble."
+            default:         return "Request failed (\(code))."
+            }
+        case .decodingError:
+            return "Got an unexpected response from the service."
+        case .noData:
+            return "No response from the service."
+        case .unknown(let e):
+            return e.localizedDescription
         }
     }
 }
